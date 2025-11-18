@@ -1,0 +1,29 @@
+.filterbar {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: rgba(40, 44, 52, 0.8);
+    margin: 20px 0;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.filtergroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtergroup label {
+    font-size: 0.9 rem;
+    color: #ccc;
+}
+
+.filtergroupselect,
+.filtergroupinput {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #f4f4f4;
+    font-size: 1rem;
+}
