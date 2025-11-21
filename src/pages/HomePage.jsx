@@ -73,10 +73,10 @@ function HomePage() {
         paddingBottom: '20px', 
         marginBottom: '20px' 
       }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Restaurants</h1>
+        <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Best Bites Around the World</h1>
         <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-          tempor incididunt ut labore et dolore magna aliqua.
+          Discover the best restaurants around the globe, from world renown to hidden gems, complete with reviews and ratings from real experiences.
+          Explore our curated list of restaurants and find your next favorite place.
         </p>
       </div>
 
