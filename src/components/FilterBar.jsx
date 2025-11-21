@@ -1,59 +1,59 @@
-import style from './FilterBar.module.css';
+// src/components/FilterBar.jsx
+import styles from './FilterBar.module.css';
 
 function FilterBar({
-    filterOpen, setFilterOpen, 
-    filterRating, setFilterRating, 
-    filterCategory, setFilterCategory,
-    allCategories
+  filterOpen, setFilterOpen,
+  filterRating, setFilterRating,
+  filterCategory, setFilterCategory,
+  allCategories
 }) {
-    return (
-        <div className={StyleSheet.filterBar}>
-            <div className={style.filtergroup}>
-                <label htmlFor="openFilter">Status</label>
-                <select
-                    id="openFilter"
-                    value={filterOpen}
-                    onChange={(e) => setFilteropen(e.target.value)}
-                >
-                    <option value="all">Semua</option>
-                    <option value="open">Buka Sekarang</option>
-                    <option value="closed">Tutup</option>
-                </select>
-            </div>
 
-        <div className={style.filterGroup}>
-            <label htmlFor="categoryFilter">Kategori</label>
-            <select
-                id="categoryFilter"
-                value={filterCategory}
-                onChange={(e) => setFilterCategory(e.target.value)}
-            >
-                <option value="all">Semua</option>
-                {allCategories.map(category => (
-                    <option key={category} value={category}>
-                        {category}
-                    </option>
-                ))}
-            </select>
-        </div>
+return (
+    <div className={styles.filterContainer}>
+        <span className={styles.label}>Filter By:</span>
+    <div className={styles.filterGroup}>
+        <select
+            className={styles.select}
+            value={filterOpen}
+            onChange={(e) => setFilterOpen(e.target.value)}
+        >
+            <option value="all">Status: All</option>
+            <option value="open">Open Now</option>
+            <option value="closed">Closed</option>
+        </select>
+    </div>
 
-        <div className={style.filterGroup}>
-            <label htmlFor="ratingFilter">Rating Minimal</label>
-            <select
-                id="ratingFilter"
-                value={filterRating}
-                onChange={(e) => setFilterRating(Number(e.target.value))}
-            >
-                <option value="0">Semua</option>
-                <option value="5">⭐⭐⭐⭐⭐</option>
-                <option value="4">⭐⭐⭐⭐+</option>
-                <option value="3">⭐⭐⭐+</option>
-                <option value="2">⭐⭐+</option>
-                <option value="1">⭐+</option>
-            </select>
+    <div className={styles.filterGroup}>
+        <select
+            className={styles.select}
+            value={filterRating}
+            onChange={(e) => setFilterRating(Number(e.target.value))}
+        >
+            <option value="0">Rating: All</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Star</option>
+        </select>
+    </div>
+
+    <div className={styles.filterGroup}>
+        <select
+            className={styles.select}
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+        >
+            <option value="all">Categories: All</option>
+            {allCategories.map(category => (
+            <option key={category} value={category}>
+            {category}
+            </option>
+        ))}
+        </select>
         </div>
-        </div>
-    );
+    </div>
+  );
 }
 
 export default FilterBar;
