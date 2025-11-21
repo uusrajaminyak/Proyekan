@@ -1,0 +1,28 @@
+.ratingWrapper {
+  display: inline-flex;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.ratingNumber {
+  margin-right: 8px;
+  font-weight: bold;
+  color: #ddd;
+}
+
+.starsOuter {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+  color: #555; 
+}
+
+.starsInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  color: #f4c150; 
+}

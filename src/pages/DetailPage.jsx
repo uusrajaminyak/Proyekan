@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from './DetailPage.module.css';
+import StarRating from '../components/StarRating';
 
 const API_URL = 'https://691ab9cd2d8d7855756fe42f.mockapi.io/resto';
 
@@ -27,7 +28,6 @@ function DetailPage() {
     if (loading) return <p style={{ textAlign: 'center', marginTop: '50px', color: 'white' }}>Loading Detail...</p>;
     if (!resto) return <p style={{ textAlign: 'center', marginTop: '50px', color: 'white' }}>Resto not found</p>;
 
-    const ratingStars = "⭐".repeat(Math.round(resto.rating || 0));
     const priceSymbols = "$".repeat(resto.price_range || 1);
     const category = resto.categories && resto.categories.length > 0 ? resto.categories[0] : 'Restaurant';
     const imageUrl = resto.photos && resto.photos.length > 0 ? resto.photos[0] : 'https://via.placeholder.com/400x300';
@@ -38,9 +38,11 @@ function DetailPage() {
                 <img src={imageUrl} alt={resto.name} className={styles.heroImage} />
                 <div className={styles.infoSection}>
                     <h1 className={styles.title}>{resto.name}</h1>
+                    
                     <div className={styles.rating}>
-                        {ratingStars} ({resto.rating})
+                        <StarRating rating={resto.rating || 0} />
                     </div>
+                    
                     <p className={styles.meta}>
                         {category} • {priceSymbols}
                     </p>
@@ -53,28 +55,25 @@ function DetailPage() {
                 </div>
             </div>
 
-            <div className={styles.reviewsSection}> {/* Perbaiki penulisan class: reviewSection -> reviewsSection */}
+            <div className={styles.reviewsSection}>
                 <h2 style={{ marginBottom: '20px', borderBottom: '1px solid #444', paddingBottom: '10px' }}>
                     Reviews ({resto.reviews ? resto.reviews.length : 0})
                 </h2>
 
                 {resto.reviews && resto.reviews.length > 0 ? (
                     resto.reviews.map((review, index) => (
-                        // Wrapper utama untuk satu item review
                         <div key={index} className={styles.reviewCard}>
                             
-                            {/* Avatar Image */}
                             <img
                                 src={review.avatar || "https://via.placeholder.com/50"}
                                 alt={review.name}
                                 className={styles.avatar} 
                             />
 
-                            {/* Wrapper untuk Teks (Nama, Bintang, Komentar) agar di sebelah kanan gambar */}
                             <div>
                                 <h4 style={{ margin: '0 0 5px 0' }}>{review.name}</h4>
-                                <div style={{ color: '#f4c150', fontSize: '0.9rem', marginBottom: '5px' }}>
-                                    {"⭐".repeat(review.rating)}
+                                <div style={{ marginBottom: '5px' }}>
+                                    <StarRating rating={review.rating || 0} />
                                 </div>
                                 <p style={{ margin: 0, color: '#ccc', fontSize: '0.95rem' }}>
                                     "{review.text}"
