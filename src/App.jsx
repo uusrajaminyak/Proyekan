@@ -4,7 +4,7 @@ import DetailPage from "./pages/DetailPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Proyekan/">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/restaurant/:id" element={<DetailPage />} />
