@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import RestaurantCard from '../components/RestaurantCard'; 
 import FilterBar from '../components/FilterBar';
+import SkeletonCard from '../components/SkeletonCard';
 
 const API_URL = 'https://691ab9cd2d8d7855756fe42f.mockapi.io/resto'; 
 
@@ -34,7 +35,7 @@ function HomePage() {
         setError(err.message); 
         console.error("Gagal mengambil data:", err);
       } finally {
-        setIsLoading(false); 
+        setTimeout(() => setIsLoading(false), 500); 
       }
     }
     fetchData();
@@ -45,7 +46,30 @@ function HomePage() {
   }, [filterOpen, filterRating, filterCategory, searchQuery]);
 
   if (isLoading) {
-    return <p style={{ textAlign: 'center', fontSize: '1.5rem', marginTop: '50px' }}>Loading data...</p>;
+    return (
+      <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ 
+          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+          paddingBottom: '20px', 
+          marginBottom: '20px' 
+        }}>
+          <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Best Bites Around the World</h1>
+          <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
+            Loading content, please wait...
+          </p>
+        </div>
+        
+        <div style={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          justifyContent: 'center'
+        }}>
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+            <SkeletonCard key={n} />
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {

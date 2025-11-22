@@ -8,17 +8,16 @@ function RestaurantCard({ resto }) {
   const status = resto.isOpen ? "Open Now" : "Closed";
   const imageUrl = resto.photos && resto.photos.length > 0 ? resto.photos[0] : 'https://via.placeholder.com/300x200?text=No+Image';
   const category = resto.categories && resto.categories.length > 0 ? resto.categories[0] : 'Restaurant';
-
   const [isFavorite, setIsFavorite] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem('myFavorites')) || [];
     if (favorites.includes(resto.id)) {
       setIsFavorite(true);
     }
-  }, [resto.id]);
+}, [resto.id]);
 
-  const toggleFavorite = () => {
+const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem('myFavorites')) || [];
     
     if (isFavorite) {
@@ -35,7 +34,6 @@ function RestaurantCard({ resto }) {
   return (
     <div className={styles.card}>
       <img src={imageUrl} alt={resto.name} className={styles.cardImage} />
-
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', marginBottom: '5px' }}>
         <h3 className={styles.cardName} style={{ margin: 0, flex: 1 }}>{resto.name || 'Nama Restoran'}</h3>
         
