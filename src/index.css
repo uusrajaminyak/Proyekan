@@ -7,7 +7,7 @@ body {
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('background.jpeg');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('/background.jpeg');
   color: white;
 }
 

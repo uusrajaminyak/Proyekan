@@ -31,6 +31,25 @@ function DetailPage() {
     fetchDetail();
   }, [id]);
 
+const handleShare = () => {
+    // Menyalin URL saat ini ke clipboard
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        // Tampilkan notifikasi sukses
+        toast.success("Link restoran disalin!", {
+            icon: '🔗',
+            style: {
+                borderRadius: '10px',
+                background: '#333',
+                color: '#fff',
+            },
+        });
+      })
+      .catch(() => {
+        toast.error("Gagal menyalin link");
+      });
+  };
+
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!inputName || !inputText) return alert("Nama dan Komentar wajib diisi!");
@@ -89,6 +108,11 @@ function DetailPage() {
           <p style={{ marginTop: '20px', lineHeight: '1.6', color: '#ddd' }}>
             {resto.desc || "Deskripsi restoran belum tersedia. Hubungi restoran untuk informasi lebih lanjut."}
           </p>
+          <div className={styles.actionButtons}>
+            <button onClick={handleShare} className={styles.shareButton}>
+               🔗 Bagikan Restoran
+            </button>
+          </div>
         </div>
       </div>
 

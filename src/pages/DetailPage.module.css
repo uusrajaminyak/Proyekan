@@ -154,3 +154,29 @@
     color: white;
     padding: 10px;
 }
+
+.actionButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px
+}
+
+.shareButton {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.shareButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+}
