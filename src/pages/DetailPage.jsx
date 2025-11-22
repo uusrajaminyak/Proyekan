@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import styles from './DetailPage.module.css';
-import StarRating from '../components/StarRating';
-import toast from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import styles from "./DetailPage.module.css";
+import StarRating from "../components/StarRating";
+import toast from "react-hot-toast";
 
-const API_URL = 'https://691ab9cd2d8d7855756fe42f.mockapi.io/resto';
+const API_URL = "https://691ab9cd2d8d7855756fe42f.mockapi.io/resto";
 
 function DetailPage() {
   const { id } = useParams();
   const [resto, setResto] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [inputName, setInputName] = useState('');
+  const [inputName, setInputName] = useState("");
   const [inputRating, setInputRating] = useState(5);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -31,18 +31,19 @@ function DetailPage() {
     fetchDetail();
   }, [id]);
 
-const handleShare = () => {
+  const handleShare = () => {
     // Menyalin URL saat ini ke clipboard
-    navigator.clipboard.writeText(window.location.href)
+    navigator.clipboard
+      .writeText(window.location.href)
       .then(() => {
         // Tampilkan notifikasi sukses
         toast.success("Link restoran disalin!", {
-            icon: '🔗',
-            style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-            },
+          icon: "🔗",
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#fff",
+          },
         });
       })
       .catch(() => {
@@ -52,7 +53,8 @@ const handleShare = () => {
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
-    if (!inputName || !inputText) return alert("Nama dan Komentar wajib diisi!");
+    if (!inputName || !inputText)
+      return alert("Nama dan Komentar wajib diisi!");
 
     setIsSubmitting(true);
 
@@ -60,7 +62,7 @@ const handleShare = () => {
       name: inputName,
       rating: parseInt(inputRating),
       text: inputText,
-      avatar: `https://ui-avatars.com/api/?name=${inputName}&background=random`
+      avatar: `https://ui-avatars.com/api/?name=${inputName}&background=random`,
     };
 
     const currentReviews = resto.reviews || [];
@@ -68,11 +70,11 @@ const handleShare = () => {
 
     try {
       await axios.put(`${API_URL}/${id}`, {
-        reviews: updatedReviews
+        reviews: updatedReviews,
       });
       setResto({ ...resto, reviews: updatedReviews });
-      setInputName('');
-      setInputText('');
+      setInputName("");
+      setInputText("");
       setInputRating(5);
       toast.success("Ulasan berhasil dikirim!");
     } catch (error) {
@@ -83,12 +85,28 @@ const handleShare = () => {
     }
   };
 
-  if (loading) return <p style={{ textAlign: 'center', marginTop: '50px', color: 'white' }}>Loading Detail...</p>;
-  if (!resto) return <p style={{ textAlign: 'center', marginTop: '50px', color: 'white' }}>Resto not found</p>;
+  if (loading)
+    return (
+      <p style={{ textAlign: "center", marginTop: "50px", color: "white" }}>
+        Loading Detail...
+      </p>
+    );
+  if (!resto)
+    return (
+      <p style={{ textAlign: "center", marginTop: "50px", color: "white" }}>
+        Resto not found
+      </p>
+    );
 
   const priceSymbols = "$".repeat(resto.price_range || 1);
-  const category = resto.categories && resto.categories.length > 0 ? resto.categories[0] : 'Restaurant';
-  const imageUrl = resto.photos && resto.photos.length > 0 ? resto.photos[0] : 'https://via.placeholder.com/400x300';
+  const category =
+    resto.categories && resto.categories.length > 0
+      ? resto.categories[0]
+      : "Restaurant";
+  const imageUrl =
+    resto.photos && resto.photos.length > 0
+      ? resto.photos[0]
+      : "https://via.placeholder.com/400x300";
 
   return (
     <div className={styles.container}>
@@ -105,12 +123,13 @@ const handleShare = () => {
           <p className={resto.isOpen ? styles.statusOpen : styles.statusClosed}>
             {resto.isOpen ? "● Open Now" : "● Closed"}
           </p>
-          <p style={{ marginTop: '20px', lineHeight: '1.6', color: '#ddd' }}>
-            {resto.desc || "Deskripsi restoran belum tersedia. Hubungi restoran untuk informasi lebih lanjut."}
+          <p style={{ marginTop: "20px", lineHeight: "1.6", color: "#ddd" }}>
+            {resto.desc ||
+              "Deskripsi restoran belum tersedia. Hubungi restoran untuk informasi lebih lanjut."}
           </p>
           <div className={styles.actionButtons}>
             <button onClick={handleShare} className={styles.shareButton}>
-               🔗 Bagikan Restoran
+              🔗 Bagikan Restoran
             </button>
           </div>
         </div>
@@ -122,10 +141,10 @@ const handleShare = () => {
           <form onSubmit={handleSubmitReview}>
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Nama</label>
-              <input 
-                type="text" 
-                className={styles.formInput} 
-                placeholder="Nama Anda..." 
+              <input
+                type="text"
+                className={styles.formInput}
+                placeholder="Nama Anda..."
                 value={inputName}
                 onChange={(e) => setInputName(e.target.value)}
               />
@@ -133,7 +152,7 @@ const handleShare = () => {
 
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Rating</label>
-              <select 
+              <select
                 className={styles.formSelect}
                 value={inputRating}
                 onChange={(e) => setInputRating(e.target.value)}
@@ -148,21 +167,31 @@ const handleShare = () => {
 
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Komentar</label>
-              <textarea 
-                className={styles.formTextarea} 
+              <textarea
+                className={styles.formTextarea}
                 placeholder="Ceritakan pengalaman Anda..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
               ></textarea>
             </div>
 
-            <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Mengirim..." : "Kirim Ulasan"}
             </button>
           </form>
         </div>
 
-        <h2 style={{ marginBottom: '20px', borderBottom: '1px solid #444', paddingBottom: '10px' }}>
+        <h2
+          style={{
+            marginBottom: "20px",
+            borderBottom: "1px solid #444",
+            paddingBottom: "10px",
+          }}
+        >
           Reviews ({resto.reviews ? resto.reviews.length : 0})
         </h2>
 
@@ -175,18 +204,20 @@ const handleShare = () => {
                 className={styles.avatar}
               />
               <div>
-                <h4 style={{ margin: '0 0 5px 0' }}>{review.name}</h4>
-                <div style={{ marginBottom: '5px' }}>
+                <h4 style={{ margin: "0 0 5px 0" }}>{review.name}</h4>
+                <div style={{ marginBottom: "5px" }}>
                   <StarRating rating={review.rating || 0} />
                 </div>
-                <p style={{ margin: 0, color: '#ccc', fontSize: '0.95rem' }}>
+                <p style={{ margin: 0, color: "#ccc", fontSize: "0.95rem" }}>
                   "{review.text}"
                 </p>
               </div>
             </div>
           ))
         ) : (
-          <p style={{ color: '#888' }}>Belum ada ulasan untuk restoran ini. Jadilah yang pertama mengulas!</p>
+          <p style={{ color: "#888" }}>
+            Belum ada ulasan untuk restoran ini. Jadilah yang pertama mengulas!
+          </p>
         )}
       </div>
     </div>

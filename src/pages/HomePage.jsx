@@ -1,45 +1,45 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import RestaurantCard from '../components/RestaurantCard'; 
-import FilterBar from '../components/FilterBar';
-import SkeletonCard from '../components/SkeletonCard';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import RestaurantCard from "../components/RestaurantCard";
+import FilterBar from "../components/FilterBar";
+import SkeletonCard from "../components/SkeletonCard";
 
-const API_URL = 'https://691ab9cd2d8d7855756fe42f.mockapi.io/resto'; 
+const API_URL = "https://691ab9cd2d8d7855756fe42f.mockapi.io/resto";
 
 function HomePage() {
   const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const [filterOpen, setFilterOpen] = useState('all');
+
+  const [filterOpen, setFilterOpen] = useState("all");
   const [filterRating, setFilterRating] = useState(0);
-  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterCategory, setFilterCategory] = useState("all");
   const [allCategories, setAllCategories] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true); 
+      setIsLoading(true);
       try {
         const response = await axios.get(API_URL);
         const data = response.data;
         setRestaurants(data);
-        const allCats = data.flatMap(resto => resto.categories || []);
+        const allCats = data.flatMap((resto) => resto.categories || []);
         const uniqueCats = [...new Set(allCats)];
         setAllCategories(uniqueCats);
-        setError(null); 
+        setError(null);
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
         console.error("Gagal mengambil data:", err);
       } finally {
-        setTimeout(() => setIsLoading(false), 500); 
+        setTimeout(() => setIsLoading(false), 500);
       }
     }
     fetchData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     setVisibleCount(8);
@@ -47,23 +47,29 @@ function HomePage() {
 
   if (isLoading) {
     return (
-      <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ 
-          borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-          paddingBottom: '20px', 
-          marginBottom: '20px' 
-        }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Best Bites Around the World</h1>
-          <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
+      <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+        <div
+          style={{
+            borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+            paddingBottom: "20px",
+            marginBottom: "20px",
+          }}
+        >
+          <h1 style={{ fontSize: "3rem", marginBottom: "10px" }}>
+            Best Bites Around the World
+          </h1>
+          <p style={{ maxWidth: "600px", lineHeight: "1.6", color: "#ccc" }}>
             Loading content, please wait...
           </p>
         </div>
-        
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          justifyContent: 'center'
-        }}>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
             <SkeletonCard key={n} />
           ))}
@@ -73,89 +79,127 @@ function HomePage() {
   }
 
   if (error) {
-    return <p style={{ textAlign: 'center', color: 'red', fontSize: '1.5rem', marginTop: '50px' }}>Error: {error}</p>;
+    return (
+      <p
+        style={{
+          textAlign: "center",
+          color: "red",
+          fontSize: "1.5rem",
+          marginTop: "50px",
+        }}
+      >
+        Error: {error}
+      </p>
+    );
   }
 
-  const filteredRestaurants = restaurants.filter(resto => {
-    if (searchQuery && !resto.name.toLowerCase().startsWith(searchQuery.toLowerCase())) {
+  const filteredRestaurants = restaurants.filter((resto) => {
+    if (
+      searchQuery &&
+      !resto.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+    ) {
       return false;
     }
-    if (filterOpen === 'open' && !resto.isOpen) return false;
-    if (filterOpen === 'closed' && resto.isOpen) return false;
+    if (filterOpen === "open" && !resto.isOpen) return false;
+    if (filterOpen === "closed" && resto.isOpen) return false;
     if (filterRating > 0 && (resto.rating || 0) < filterRating) return false;
-    if (filterCategory !== 'all' && !(resto.categories || []).includes(filterCategory)) return false;
+    if (
+      filterCategory !== "all" &&
+      !(resto.categories || []).includes(filterCategory)
+    )
+      return false;
     return true;
   });
 
   const restaurantsToDisplay = filteredRestaurants.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    setVisibleCount(prevCount => prevCount + 8);
+    setVisibleCount((prevCount) => prevCount + 8);
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      
-      <div style={{ 
-        borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
-        paddingBottom: '20px', 
-        marginBottom: '20px' 
-      }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '10px' }}>Best Bites Around the World</h1>
-        <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
-          Discover the best restaurants around the globe, from world renown to hidden gems, complete with reviews and ratings from real experiences.
-          Explore our curated list of restaurants and find your next favorite place.
+    <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+      <div
+        style={{
+          borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+          paddingBottom: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <h1 style={{ fontSize: "3rem", marginBottom: "10px" }}>
+          Best Bites Around the World
+        </h1>
+        <p style={{ maxWidth: "600px", lineHeight: "1.6", color: "#ccc" }}>
+          Discover the best restaurants around the globe, from world renown to
+          hidden gems, complete with reviews and ratings from real experiences.
+          Explore our curated list of restaurants and find your next favorite
+          place.
         </p>
       </div>
 
       <FilterBar
-        filterOpen={filterOpen} setFilterOpen={setFilterOpen}
-        filterRating={filterRating} setFilterRating={setFilterRating}
-        filterCategory={filterCategory} setFilterCategory={setFilterCategory}
-        searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+        filterOpen={filterOpen}
+        setFilterOpen={setFilterOpen}
+        filterRating={filterRating}
+        setFilterRating={setFilterRating}
+        filterCategory={filterCategory}
+        setFilterCategory={setFilterCategory}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
         allCategories={allCategories}
       />
 
-      <h2 style={{ marginTop: '30px', marginBottom: '20px' }}>All Restaurants</h2>
-      
-      <div style={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        justifyContent: 'center'
-      }}>
+      <h2 style={{ marginTop: "30px", marginBottom: "20px" }}>
+        All Restaurants
+      </h2>
+
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {restaurantsToDisplay.length > 0 ? (
-          restaurantsToDisplay.map(resto => (
+          restaurantsToDisplay.map((resto) => (
             <RestaurantCard key={resto.id} resto={resto} />
           ))
         ) : (
-          <p style={{ marginTop: '20px', color: '#aaa' }}>Tidak ada restoran ditemukan dengan filter ini.</p>
+          <p style={{ marginTop: "20px", color: "#aaa" }}>
+            Tidak ada restoran ditemukan dengan filter ini.
+          </p>
         )}
       </div>
 
       {visibleCount < filteredRestaurants.length && (
-        <div style={{ textAlign: 'center', marginTop: '30px', marginBottom: '50px' }}>
-          <button 
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "30px",
+            marginBottom: "50px",
+          }}
+        >
+          <button
             onClick={handleLoadMore}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
-            style={{ 
-              padding: '12px 40px', 
-              fontSize: '0.9rem', 
-              cursor: 'pointer',
-              backgroundColor: isHovering ? '#003063ff' : '#0a244d',
-              color: 'white', 
-              border: 'none',
-              letterSpacing: '1px',
-              fontWeight: 'bold',
-              borderRadius: '4px',
-              transition: 'all 0.3s ease'
+            style={{
+              padding: "12px 40px",
+              fontSize: "0.9rem",
+              cursor: "pointer",
+              backgroundColor: isHovering ? "#003063ff" : "#0a244d",
+              color: "white",
+              border: "none",
+              letterSpacing: "1px",
+              fontWeight: "bold",
+              borderRadius: "4px",
+              transition: "all 0.3s ease",
             }}
           >
             LOAD MORE
           </button>
         </div>
       )}
-
     </div>
   );
 }
