@@ -5,12 +5,22 @@ function FilterBar({
   filterOpen, setFilterOpen,
   filterRating, setFilterRating,
   filterCategory, setFilterCategory,
+  searchQuery, setSearchQuery,
   allCategories
 }) {
 
 return (
     <div className={styles.filterContainer}>
         <span className={styles.label}>Filter By:</span>
+    <div className={styles.filterGroup}>
+        <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search Restaurants..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+        />
+    </div>
     <div className={styles.filterGroup}>
         <select
             className={styles.select}

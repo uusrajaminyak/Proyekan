@@ -15,6 +15,7 @@ function HomePage() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [allCategories, setAllCategories] = useState([]);
 
+  const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(8);
   const [isHovering, setIsHovering] = useState(false);
 
@@ -41,7 +42,7 @@ function HomePage() {
 
   useEffect(() => {
     setVisibleCount(8);
-  }, [filterOpen, filterRating, filterCategory]);
+  }, [filterOpen, filterRating, filterCategory, searchQuery]);
 
   if (isLoading) {
     return <p style={{ textAlign: 'center', fontSize: '1.5rem', marginTop: '50px' }}>Loading data...</p>;
@@ -52,6 +53,9 @@ function HomePage() {
   }
 
   const filteredRestaurants = restaurants.filter(resto => {
+    if (searchQuery && !resto.name.toLowerCase().startsWith(searchQuery.toLowerCase())) {
+      return false;
+    }
     if (filterOpen === 'open' && !resto.isOpen) return false;
     if (filterOpen === 'closed' && resto.isOpen) return false;
     if (filterRating > 0 && (resto.rating || 0) < filterRating) return false;
@@ -84,6 +88,7 @@ function HomePage() {
         filterOpen={filterOpen} setFilterOpen={setFilterOpen}
         filterRating={filterRating} setFilterRating={setFilterRating}
         filterCategory={filterCategory} setFilterCategory={setFilterCategory}
+        searchQuery={searchQuery} setSearchQuery={setSearchQuery}
         allCategories={allCategories}
       />
 
