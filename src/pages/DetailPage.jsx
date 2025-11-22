@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './DetailPage.module.css';
 import StarRating from '../components/StarRating';
+import toast from 'react-hot-toast';
 
 const API_URL = 'https://691ab9cd2d8d7855756fe42f.mockapi.io/resto';
 
@@ -54,10 +55,10 @@ function DetailPage() {
       setInputName('');
       setInputText('');
       setInputRating(5);
-      alert("Ulasan berhasil dikirim!");
+      toast.success("Ulasan berhasil dikirim!");
     } catch (error) {
       console.error("Gagal mengirim ulasan:", error);
-      alert("Terjadi kesalahan saat mengirim ulasan.");
+      toast.error("Gagal mengirim ulasan.");
     } finally {
       setIsSubmitting(false);
     }

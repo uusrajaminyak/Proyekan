@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './RestaurantCard.module.css';
 import StarRating from './StarRating';
+import toast from 'react-hot-toast';
 
 function RestaurantCard({ resto }) {
   const priceSymbols = "$".repeat(resto.price_range || 1);
@@ -24,10 +25,12 @@ const toggleFavorite = () => {
       const newFavorites = favorites.filter(id => id !== resto.id);
       localStorage.setItem('myFavorites', JSON.stringify(newFavorites));
       setIsFavorite(false);
+      toast("Dihapus dari favorit",{ icon: '🗑️' })
     } else {
       favorites.push(resto.id);
       localStorage.setItem('myFavorites', JSON.stringify(favorites));
       setIsFavorite(true);
+      toast.success("Disimpan ke favorit!");
     }
   };
 
